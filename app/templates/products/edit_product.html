@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Product
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg p-4">
+
+        <h2 class="text-center mb-4">
+            Edit Product
+        </h2>
+
+        <form method="POST">
+
+            <!-- Product Name -->
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    name="product_name"
+                    value="{{ product[1] }}"
+                    class="form-control"
+                    required>
+
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Description
+                </label>
+
+                <textarea
+                    name="description"
+                    class="form-control"
+                    rows="3">{{ product[2] }}</textarea>
+
+            </div>
+
+            <!-- Specifications -->
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Specifications
+                </label>
+
+                <textarea
+                    name="specifications"
+                    class="form-control"
+                    rows="3">{{ product[3] }}</textarea>
+
+            </div>
+
+            <div class="row">
+
+                <!-- Price -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        Price
+                    </label>
+
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="price"
+                        value="{{ product[4] }}"
+                        class="form-control"
+                        required>
+
+                </div>
+
+                <!-- Stock -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        Stock
+                    </label>
+
+                    <input
+                        type="number"
+                        name="stock"
+                        value="{{ product[5] }}"
+                        class="form-control"
+                        required>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <!-- Category -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        Category
+                    </label>
+
+                    <select
+                        name="category"
+                        class="form-select"
+                        required>
+
+                        {% for category in categories %}
+
+                        <option
+                            value="{{ category[0] }}"
+
+                            {% if category[0] == product[7] %}
+                            selected
+                            {% endif %}>
+
+                            {{ category[1] }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <!-- Brand -->
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        Brand
+                    </label>
+
+                    <select
+                        name="brand"
+                        class="form-select"
+                        required>
+
+                        {% for brand in brands %}
+
+                        <option
+                            value="{{ brand[0] }}"
+
+                            {% if brand[0] == product[8] %}
+                            selected
+                            {% endif %}>
+
+                            {{ brand[1] }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <!-- Image URL -->
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Image URL
+                </label>
+
+                <input
+                    type="text"
+                    name="image"
+                    value="{{ product[6] }}"
+                    class="form-control">
+
+            </div>
+
+            <button
+                type="submit"
+                class="btn btn-success w-100">
+
+                Update Product
+
+            </button>
+
+            <a
+                href="{{ url_for('admin.manage_products') }}"
+                class="btn btn-secondary w-100 mt-2">
+
+                Back to Manage Products
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

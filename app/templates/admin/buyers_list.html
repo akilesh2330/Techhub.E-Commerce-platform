@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}
+Buyers List
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="text-center mb-4">
+        👥 Buyers List
+    </h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                    {{ message }}
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <div class="card shadow">
+
+        <div class="card-header bg-dark text-white">
+
+            <h4 class="mb-0">
+                Registered Users
+            </h4>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>
+                                User ID
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Role
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for user in users %}
+
+                            <tr>
+
+                                <td>
+                                    {{ user[0] }}
+                                </td>
+
+                                <td>
+                                    {{ user[1] }}
+                                </td>
+
+                                <td>
+                                    {{ user[2] }}
+                                </td>
+
+                                <td>
+
+                                    {% if user[3] == "admin" %}
+
+                                        <span class="badge bg-danger">
+
+                                            Admin
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-success">
+
+                                            Buyer
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% else %}
+
+                            <tr>
+
+                                <td
+                                    colspan="4"
+                                    class="text-center">
+
+                                    No Users Found
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <a
+        href="{{ url_for('admin.admin_dashboard') }}"
+        class="btn btn-secondary mt-4">
+
+        ← Back to Dashboard
+
+    </a>
+
+</div>
+
+{% endblock %}

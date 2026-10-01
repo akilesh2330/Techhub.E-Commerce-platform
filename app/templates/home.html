@@ -1,11 +1,72 @@
-<!-- app/templates/home.html -->
 {% extends "base.html" %}
 
-{% block title %}Home - TechHub{% endblock %}
+{% block title %}
+TechHub Home
+{% endblock %}
 
 {% block content %}
-<div class="text-center py-5">
-    <h1 class="display-4">Welcome to TechHub</h1>
-    <p class="lead">Your one-stop shop for laptops, GPUs, and custom PC builds.</p>
+
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+
+        <h1>
+            Welcome to TechHub
+        </h1>
+
+        <p class="text-muted">
+            Choose a category to explore products
+        </p>
+
+    </div>
+
+
+    <div class="row">
+
+        {% for category in categories %}
+
+        <div class="col-md-4 col-lg-3 mb-4">
+
+            <div class="card shadow h-100 text-center">
+
+                <div class="card-body">
+
+                    <h4 class="card-title mb-4">
+
+                        {{ category[1] }}
+
+                    </h4>
+
+                    <a
+                        href="{{ url_for('main.category_products', category_id=category[0]) }}"
+                        class="btn btn-primary w-100">
+
+                        View Products
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="col-12">
+
+            <div class="alert alert-warning text-center">
+
+                No categories are available.
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
 </div>
+
 {% endblock %}

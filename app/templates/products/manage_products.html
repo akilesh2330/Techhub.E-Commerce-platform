@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}
+Manage Products
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="text-center mb-4">
+        Manage Products
+    </h2>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+
+                    {{ message }}
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <!-- Table Heading -->
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Product</th>
+
+                            <th>Brand</th>
+
+                            <th>Category</th>
+
+                            <th>Price</th>
+
+                            <th>Stock</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <!-- Product Details -->
+                    <tbody>
+
+                        {% for product in products %}
+
+                            <tr>
+
+                                <!-- Product ID -->
+                                <td>
+
+                                    {{ product[0] }}
+
+                                </td>
+
+
+                                <!-- Product Name -->
+                                <td>
+
+                                    {{ product[1] }}
+
+                                </td>
+
+
+                                <!-- Brand -->
+                                <td>
+
+                                    {{ product[2] }}
+
+                                </td>
+
+
+                                <!-- Category -->
+                                <td>
+
+                                    {{ product[3] }}
+
+                                </td>
+
+
+                                <!-- Price -->
+                                <td>
+
+                                    ₹ {{ product[4] }}
+
+                                </td>
+
+
+                                <!-- Stock -->
+                                <td>
+
+                                    {{ product[5] }}
+
+                                </td>
+
+
+                                <!-- Action Buttons -->
+                                <td>
+
+
+                                    <!-- EDIT BUTTON -->
+
+                                    <a
+                                        href="{{ url_for('admin.edit_product', product_id=product[0]) }}"
+                                        class="btn btn-warning btn-sm">
+
+                                        Edit
+
+                                    </a>
+
+
+                                    <!-- DELETE BUTTON -->
+
+                                    <form
+
+                                        action="{{ url_for('admin.delete_product', product_id=product[0]) }}"
+
+                                        method="POST"
+
+                                        style="display: inline;"
+
+                                    >
+
+
+                                        <button
+
+                                            type="submit"
+
+                                            class="btn btn-danger btn-sm"
+
+                                            onclick="return confirm('Are you sure you want to delete this product?');"
+
+                                        >
+
+                                            Delete
+
+                                        </button>
+
+
+                                    </form>
+
+
+                                </td>
+
+
+                            </tr>
+
+
+                        {% else %}
+
+
+                            <!-- No Products -->
+
+                            <tr>
+
+
+                                <td
+
+                                    colspan="7"
+
+                                    class="text-center"
+
+                                >
+
+
+                                    No Products Found
+
+
+                                </td>
+
+
+                            </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+            <!-- Back to Dashboard -->
+
+            <a
+
+                href="{{ url_for('admin.admin_dashboard') }}"
+
+                class="btn btn-secondary"
+
+            >
+
+
+                ← Back to Dashboard
+
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

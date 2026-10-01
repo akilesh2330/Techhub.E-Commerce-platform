@@ -1,0 +1,504 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Order Details | TechHub
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <!-- PAGE HEADING -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>
+                👁 Admin Order Details
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Order ID:
+
+                <strong>
+                    #{{ order[0] }}
+                </strong>
+
+            </p>
+
+        </div>
+
+
+        <!-- BACK BUTTON -->
+
+        <a
+            href="{{ url_for('admin.manage_orders') }}"
+            class="btn btn-secondary">
+
+            ← Back to Manage Orders
+
+        </a>
+
+    </div>
+
+
+    <div class="row">
+
+
+        <!-- ==========================================
+                    ORDERED PRODUCTS
+        =========================================== -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow mb-4">
+
+                <div class="card-header bg-dark text-white">
+
+                    <h5 class="mb-0">
+
+                        🛒 Ordered Products
+
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table
+                            class="table table-bordered table-hover
+                            align-middle text-center">
+
+                            <thead class="table-light">
+
+                                <tr>
+
+                                    <th>
+                                        Product
+                                    </th>
+
+                                    <th>
+                                        Price
+                                    </th>
+
+                                    <th>
+                                        Quantity
+                                    </th>
+
+                                    <th>
+                                        Subtotal
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for item in order_items %}
+
+                                <tr>
+
+                                    <td class="fw-semibold">
+
+                                        {{ item[0] }}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        ₹ {{ item[1] }}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {{ item[2] }}
+
+                                    </td>
+
+
+                                    <td class="text-success fw-bold">
+
+                                        ₹ {{ item[3] }}
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ==========================================
+                    CUSTOMER DELIVERY DETAILS
+            =========================================== -->
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h5 class="mb-0">
+
+                        📍 Customer Delivery Details
+
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <p>
+
+                        <strong>
+                            Customer Name:
+                        </strong>
+
+                        {{ order[1] }}
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Phone Number:
+                        </strong>
+
+                        {{ order[2] }}
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            Address:
+                        </strong>
+
+                        {{ order[3] }}
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            City:
+                        </strong>
+
+                        {{ order[4] }}
+
+                    </p>
+
+
+                    <p>
+
+                        <strong>
+                            State:
+                        </strong>
+
+                        {{ order[5] }}
+
+                    </p>
+
+
+                    <p class="mb-0">
+
+                        <strong>
+                            Pincode:
+                        </strong>
+
+                        {{ order[6] }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+                    ADMIN ORDER SUMMARY
+        =========================================== -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+
+                    <h5 class="mb-0">
+
+                        Order Summary
+
+                    </h5>
+
+                </div>
+
+
+                <div class="card-body">
+
+
+                    <!-- ORDER DATE -->
+
+                    <p>
+
+                        <strong>
+                            Order Date:
+                        </strong>
+
+                        <br>
+
+                        {{ order[10] }}
+
+                    </p>
+
+
+                    <hr>
+
+
+                    <!-- PAYMENT METHOD -->
+
+                    <p>
+
+                        <strong>
+                            Payment Method:
+                        </strong>
+
+                        <br>
+
+                        {{ order[7] }}
+
+                    </p>
+
+
+                    <hr>
+
+
+                    <!-- ORDER STATUS -->
+
+                    <p>
+
+                        <strong>
+                            Current Status:
+                        </strong>
+
+                        <br>
+
+
+                        {% if order[9] == "Pending" %}
+
+                        <span class="badge bg-warning text-dark mt-2">
+
+                            Pending
+
+                        </span>
+
+
+                        {% elif order[9] == "Confirmed" %}
+
+                        <span class="badge bg-primary mt-2">
+
+                            Confirmed
+
+                        </span>
+
+
+                        {% elif order[9] == "Shipped" %}
+
+                        <span class="badge bg-info text-dark mt-2">
+
+                            Shipped
+
+                        </span>
+
+
+                        {% elif order[9] == "Delivered" %}
+
+                        <span class="badge bg-success mt-2">
+
+                            Delivered
+
+                        </span>
+
+
+                        {% elif order[9] == "Cancelled" %}
+
+                        <span class="badge bg-danger mt-2">
+
+                            Cancelled
+
+                        </span>
+
+
+                        {% else %}
+
+                        <span class="badge bg-secondary mt-2">
+
+                            {{ order[9] }}
+
+                        </span>
+
+                        {% endif %}
+
+                    </p>
+
+
+                    <hr>
+
+
+                    <!-- GRAND TOTAL -->
+
+                    <div
+                        class="d-flex
+                        justify-content-between
+                        align-items-center">
+
+                        <h5>
+
+                            Total:
+
+                        </h5>
+
+
+                        <h4 class="text-success">
+
+                            ₹ {{ order[8] }}
+
+                        </h4>
+
+                    </div>
+
+
+                    <hr>
+
+
+                    <!-- UPDATE STATUS -->
+
+                    <form
+                        action="{{ url_for(
+                            'admin.update_order_status',
+                            order_id=order[0]
+                        ) }}"
+
+                        method="POST">
+
+
+                        <label class="form-label fw-bold">
+
+                            Update Order Status
+
+                        </label>
+
+
+                        <select
+                            name="order_status"
+                            class="form-select"
+                            required>
+
+
+                            <option
+                                value="Pending"
+
+                                {% if order[9] == "Pending" %}
+                                selected
+                                {% endif %}>
+
+                                Pending
+
+                            </option>
+
+
+                            <option
+                                value="Confirmed"
+
+                                {% if order[9] == "Confirmed" %}
+                                selected
+                                {% endif %}>
+
+                                Confirmed
+
+                            </option>
+
+
+                            <option
+                                value="Shipped"
+
+                                {% if order[9] == "Shipped" %}
+                                selected
+                                {% endif %}>
+
+                                Shipped
+
+                            </option>
+
+
+                            <option
+                                value="Delivered"
+
+                                {% if order[9] == "Delivered" %}
+                                selected
+                                {% endif %}>
+
+                                Delivered
+
+                            </option>
+
+
+                            <option
+                                value="Cancelled"
+
+                                {% if order[9] == "Cancelled" %}
+                                selected
+                                {% endif %}>
+
+                                Cancelled
+
+                            </option>
+
+                        </select>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100 mt-3">
+
+                            Update Status
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

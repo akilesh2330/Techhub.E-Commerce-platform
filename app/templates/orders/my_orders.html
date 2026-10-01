@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Orders | TechHub
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <!-- PAGE TITLE -->
+
+    <div class="text-center mb-4">
+
+        <h2>
+            📦 My Orders
+        </h2>
+
+        <p class="text-muted">
+            View and track all your TechHub orders
+        </p>
+
+    </div>
+
+
+    <!-- CHECK WHETHER CUSTOMER HAS ORDERS -->
+
+    {% if orders %}
+
+        <div class="card shadow">
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table
+                        class="table table-bordered table-hover align-middle text-center">
+
+                        <!-- TABLE HEADING -->
+
+                        <thead class="table-dark">
+
+                            <tr>
+
+                                <th>
+                                    Order ID
+                                </th>
+
+                                <th>
+                                    Order Date
+                                </th>
+
+                                <th>
+                                    Total Amount
+                                </th>
+
+                                <th>
+                                    Payment Method
+                                </th>
+
+                                <th>
+                                    Order Status
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <!-- ORDER DETAILS -->
+
+                        <tbody>
+
+                            {% for order in orders %}
+
+                                <tr>
+
+                                    <!-- ORDER ID -->
+
+                                    <td>
+
+                                        #{{ order[0] }}
+
+                                    </td>
+
+
+                                    <!-- ORDER DATE -->
+
+                                    <td>
+
+                                        {{ order[1] }}
+
+                                    </td>
+
+
+                                    <!-- TOTAL AMOUNT -->
+
+                                    <td class="fw-bold text-success">
+
+                                        ₹ {{ order[2] }}
+
+                                    </td>
+
+
+                                    <!-- PAYMENT METHOD -->
+
+                                    <td>
+
+                                        {{ order[3] }}
+
+                                    </td>
+
+
+                                    <!-- ORDER STATUS -->
+
+                                    <td>
+
+                                        {% if order[4] == "Pending" %}
+
+                                            <span class="badge bg-warning text-dark">
+
+                                                Pending
+
+                                            </span>
+
+
+                                        {% elif order[4] == "Confirmed" %}
+
+                                            <span class="badge bg-primary">
+
+                                                Confirmed
+
+                                            </span>
+
+
+                                        {% elif order[4] == "Shipped" %}
+
+                                            <span class="badge bg-info text-dark">
+
+                                                Shipped
+
+                                            </span>
+
+
+                                        {% elif order[4] == "Delivered" %}
+
+                                            <span class="badge bg-success">
+
+                                                Delivered
+
+                                            </span>
+
+
+                                        {% elif order[4] == "Cancelled" %}
+
+                                            <span class="badge bg-danger">
+
+                                                Cancelled
+
+                                            </span>
+
+
+                                        {% else %}
+
+                                            <span class="badge bg-secondary">
+
+                                                {{ order[4] }}
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <!-- VIEW ORDER BUTTON -->
+
+                                    <td>
+
+                                        <a
+                                            href="{{ url_for(
+                                                'order.order_details',
+                                                order_id=order[0]
+                                            ) }}"
+
+                                            class="btn btn-primary btn-sm">
+
+                                            View Details
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    {% else %}
+
+
+        <!-- NO ORDERS -->
+
+        <div class="card shadow text-center">
+
+            <div class="card-body p-5">
+
+                <h1>
+
+                    📦
+
+                </h1>
+
+                <h4>
+
+                    You have not placed any orders yet.
+
+                </h4>
+
+                <p class="text-muted">
+
+                    Start shopping and your orders will appear here.
+
+                </p>
+
+                <a
+                    href="{{ url_for('main.home') }}"
+                    class="btn btn-primary mt-3">
+
+                    Start Shopping
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

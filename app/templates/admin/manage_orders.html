@@ -1,0 +1,481 @@
+{% extends "base.html" %}
+
+{% block title %}
+Manage Orders | TechHub
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <!-- PAGE HEADING -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>
+                📦 Manage Orders
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                View and update all customer orders
+
+            </p>
+
+        </div>
+
+
+        <!-- BACK TO ADMIN DASHBOARD -->
+
+        <a
+            href="{{ url_for('admin.admin_dashboard') }}"
+            class="btn btn-secondary">
+
+            ← Back to Dashboard
+
+        </a>
+
+    </div>
+
+
+    <!-- CHECK WHETHER ORDERS EXIST -->
+
+    {% if orders %}
+
+
+        <div class="card shadow">
+
+
+            <div class="card-body">
+
+
+                <div class="table-responsive">
+
+
+                    <table
+                        class="
+                            table
+                            table-bordered
+                            table-hover
+                            align-middle
+                            text-center
+                        ">
+
+
+                        <!-- TABLE HEADING -->
+
+                        <thead class="table-dark">
+
+
+                            <tr>
+
+                                <th>
+                                    Order ID
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Order Date
+                                </th>
+
+                                <th>
+                                    Total Amount
+                                </th>
+
+                                <th>
+                                    Payment
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                
+                                <th>
+                                    View Details
+                                </th>
+                                <th>
+                                    Update Status
+                                </th>
+
+                            </tr>
+
+
+                        </thead>
+
+
+                        <!-- ORDER DETAILS -->
+
+                        <tbody>
+
+
+                            {% for order in orders %}
+
+
+                                <tr>
+
+
+                                    <!-- ORDER ID -->
+
+                                    <td class="fw-bold">
+
+                                        #{{ order[0] }}
+
+                                    </td>
+
+
+                                    <!-- CUSTOMER NAME -->
+
+                                    <td>
+
+                                        {{ order[1] }}
+
+                                    </td>
+
+
+                                    <!-- ORDER DATE -->
+
+                                    <td>
+
+                                        {{ order[2] }}
+
+                                    </td>
+
+
+                                    <!-- TOTAL AMOUNT -->
+
+                                    <td
+                                        class="
+                                            fw-bold
+                                            text-success
+                                        ">
+
+                                        ₹ {{ order[3] }}
+
+                                    </td>
+
+
+                                    <!-- PAYMENT METHOD -->
+
+                                    <td>
+
+                                        {{ order[4] }}
+
+                                    </td>
+
+
+                                    <!-- CURRENT ORDER STATUS -->
+
+                                    <td>
+
+
+                                        {% if order[5] == "Pending" %}
+
+
+                                            <span
+                                                class="
+                                                    badge
+                                                    bg-warning
+                                                    text-dark
+                                                ">
+
+                                                Pending
+
+                                            </span>
+
+
+                                        {% elif order[5] == "Confirmed" %}
+
+
+                                            <span
+                                                class="
+                                                    badge
+                                                    bg-primary
+                                                ">
+
+                                                Confirmed
+
+                                            </span>
+
+
+                                        {% elif order[5] == "Shipped" %}
+
+
+                                            <span
+                                                class="
+                                                    badge
+                                                    bg-info
+                                                    text-dark
+                                                ">
+
+                                                Shipped
+
+                                            </span>
+
+
+                                        {% elif order[5] == "Delivered" %}
+
+
+                                            <span
+                                                class="
+                                                    badge
+                                                    bg-success
+                                                ">
+
+                                                Delivered
+
+                                            </span>
+
+
+                                        {% elif order[5] == "Cancelled" %}
+
+
+                                            <span
+                                                class="
+                                                    badge
+                                                    bg-danger
+                                                ">
+
+                                                Cancelled
+
+                                            </span>
+
+
+                                        {% else %}
+
+
+                                            <span
+                                                class="
+                                                    badge
+                                                    bg-secondary
+                                                ">
+
+                                                {{ order[5] }}
+
+                                            </span>
+
+
+                                        {% endif %}
+
+
+                                    </td>
+
+                                    <!-- VIEW ORDER DETAILS -->
+
+                                    <td>
+
+                                        <a
+                                            href="{{ url_for(
+                                            'admin.admin_order_details',
+                                            order_id=order[0]
+                                            ) }}"
+                                            class="btn btn-info btn-sm">
+
+                                            👁 View
+
+                                        </a>
+
+                                    </td>
+                                    <!-- UPDATE ORDER STATUS -->
+
+                                    <td>
+
+
+                                        <form
+
+                                            action="{{ url_for(
+                                                'admin.update_order_status',
+                                                order_id=order[0]
+                                            ) }}"
+
+                                            method="POST">
+
+
+                                            <div class="input-group">
+
+
+                                                <!-- STATUS DROPDOWN -->
+
+                                                <select
+
+                                                    name="order_status"
+
+                                                    class="form-select"
+
+                                                    required>
+
+
+                                                    <option
+
+                                                        value="Pending"
+
+                                                        {% if order[5] == "Pending" %}
+
+                                                            selected
+
+                                                        {% endif %}>
+
+                                                        Pending
+
+                                                    </option>
+
+
+                                                    <option
+
+                                                        value="Confirmed"
+
+                                                        {% if order[5] == "Confirmed" %}
+
+                                                            selected
+
+                                                        {% endif %}>
+
+                                                        Confirmed
+
+                                                    </option>
+
+
+                                                    <option
+
+                                                        value="Shipped"
+
+                                                        {% if order[5] == "Shipped" %}
+
+                                                            selected
+
+                                                        {% endif %}>
+
+                                                        Shipped
+
+                                                    </option>
+
+
+                                                    <option
+
+                                                        value="Delivered"
+
+                                                        {% if order[5] == "Delivered" %}
+
+                                                            selected
+
+                                                        {% endif %}>
+
+                                                        Delivered
+
+                                                    </option>
+
+
+                                                    <option
+
+                                                        value="Cancelled"
+
+                                                        {% if order[5] == "Cancelled" %}
+
+                                                            selected
+
+                                                        {% endif %}>
+
+                                                        Cancelled
+
+                                                    </option>
+
+
+                                                </select>
+
+
+                                                <!-- UPDATE BUTTON -->
+
+                                                <button
+
+                                                    type="submit"
+
+                                                    class="
+                                                        btn
+                                                        btn-primary
+                                                    ">
+
+                                                    Update
+
+                                                </button>
+
+
+                                            </div>
+
+
+                                        </form>
+
+
+                                    </td>
+
+
+                                </tr>
+
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <!-- NO ORDERS AVAILABLE -->
+
+        <div class="card shadow text-center">
+
+
+            <div class="card-body p-5">
+
+
+                <h1>
+
+                    📦
+
+                </h1>
+
+
+                <h4>
+
+                    No customer orders are available.
+
+                </h4>
+
+
+                <p class="text-muted">
+
+                    New customer orders will appear here.
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+{% endblock %}
